@@ -9,7 +9,7 @@ export namespace TealLS {
     export async function validateTextDocument(textDocument: TreeSitterDocument): Promise<Map<string, Diagnostic[]>> {
         const projectRoot = await textDocument.getProjectRoot();
 
-        const checkResult = await Teal.runCommandOnText(Teal.TLCommand.Check, textDocument.getText(), projectRoot);
+        const checkResult = await Teal.runCommandOnText(Teal.TLCommand.Check, textDocument.getText(), textDocument.getFileName(), projectRoot);
 
         const crashPattern = /stack traceback:/m;
 

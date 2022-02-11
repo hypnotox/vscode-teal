@@ -77,7 +77,7 @@ connection.onInitialized(() => {
 	}
 
 	if (hasWorkspaceFolderCapability) {
-		connection.workspace.onDidChangeWorkspaceFolders(_event => {
+		connection.workspace.onDidChangeWorkspaceFolders((_event: any) => {
 			connection.console.log('Workspace folder change event received.');
 		});
 	}
@@ -223,7 +223,7 @@ async function _feedTypeInfoCache(uri: string) {
 	let typesCmdResult: Teal.TLCommandIOInfo;
 
 	try {
-		typesCmdResult = await Teal.runCommandOnText(Teal.TLCommand.Types, documentText, await textDocument.getProjectRoot());
+		typesCmdResult = await Teal.runCommandOnText(Teal.TLCommand.Types, documentText, textDocument.getFileName(), await textDocument.getProjectRoot());
 	} catch (error: any) {
 		showErrorMessage("[Error]\n" + error.message);
 		return null;

@@ -148,7 +148,7 @@ export namespace Teal {
      * @param text The text.
      * @param projectRoot The directory which contains the tlconfig.lua file to use for running the command.
      */
-    export async function runCommandOnText(command: TLCommand, text: string, projectRoot?: string): Promise<TLCommandIOInfo> {
+    export async function runCommandOnText(command: TLCommand, text: string, fileNamePostfix: string, projectRoot?: string): Promise<TLCommandIOInfo> {
         try {
             return await withFile(async ({ path, fd }) => {
                 await writeFile(fd, text);
@@ -159,7 +159,7 @@ export namespace Teal {
                 } catch (error) {
                     throw error;
                 }
-            }, { prefix: TmpBufferPrefix });
+            }, { prefix: TmpBufferPrefix, postfix: fileNamePostfix ? '-' + fileNamePostfix : undefined });
         } catch (error) {
             throw error;
         }
@@ -179,7 +179,7 @@ export namespace Teal {
                 filePath = quote([filePath]);
             }
 
-            args.push(filePath);
+            args.push(filePath as string);
         }
 
         child = spawn("tl", args, {
